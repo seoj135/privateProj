@@ -1,10 +1,10 @@
-#include "Graphics.h"
+#include "graphic.h"
 // #include "1Line.cpp"
 //
 
 // Creator, Destroyer
-	Graphics::Graphics(){ };		// 생성자		// 특별한 구현 없음
-	Graphics::Graphics(int State)	// 생성자 2		// 실질적으로 사용함
+	graphic::graphic(){ };		// 생성자		// 특별한 구현 없음
+	graphic::graphic(int State)	// 생성자 2		// 실질적으로 사용함
 	{	
 		// 현재 선택되있는 옵션들을 부를 수 있도록 Document 객체를 불러야함
 
@@ -32,34 +32,41 @@
 
 		}
 	}
-	Graphics::~Graphics();			// 소멸자
-	//~Graphics(int State);	// 소멸자 2
+	graphic::~graphic();			// 소멸자
+	//~graphic(int State);	// 소멸자 2
 
 	// mutator
-	int Graphics::moveApoint(int index);
-	int Graphics::moveAll();
-	int Graphics::chgState(int a);
-	int Graphics::addPoint(CPoint a);
-	int Graphics::chgLineWidth(int a);
-	int Graphics::chgLineStyle(int a);
-	int Graphics::chgColor(COLORREF a);
-	int Graphics::chgColorNumber(int a);
+	int graphic::moveApoint(int index, CPoint dest)
+	{	points[index] = dest;	return 0;			}
+	int graphic::moveAll(CPoint base, CPoint dest)
+	{	for(int i=0; i<pointNumber; i++)
+			points[index] += (dest - index);
+		return 0;									}
+	int graphic::chgState(int a)		{State = a; return 0;}
+	int graphic::addPoint(CPoint a)		{points[++pointNumber] = a; return 0;}
+	int graphic::chgLineWidth(int a)	{lineWidth = a; return 0;}
+	int graphic::chgLineStyle(int a)	{lineStyle = a; return 0;}
+	int graphic::chgColor(COLORREF a)	{colors[0] = a; return 0;}
+	int graphic::chgColor2(COLORREF a)	{colors[1] = a; return 0;}
+	int graphic::chgColorNumber(int a)	{colorNumber = a; return 0;}
 
 	// accessor
-	int		 Graphics::getState()			{return State;}
-	CPoint	 Graphics::getPoint(int index)	{return points[index];}
-	int		 Graphics::getPointNumber()		{return pointNumber;}
-	int		 Graphics::getLineWidth()		{return lineWidth;}
-	int		 Graphics::getLineStyle()		{return lineStyle;}
-	COLORREF Graphics::getColor(int index)	{return colors[index];}
-	int		 Graphics::getColorNumber()		{return colorNumber;}
+	int		 graphic::getState()			{return State;}
+	CPoint	 graphic::getPoint(int index)	{return points[index];}
+	int		 graphic::getPointNumber()		{return pointNumber;}
+	int		 graphic::getLineWidth()		{return lineWidth;}
+	int		 graphic::getLineStyle()		{return lineStyle;}
+	COLORREF graphic::getColor(int index)	{return colors[index];}
+	int		 graphic::getColorNumber()		{return colorNumber;}
 
 	// 기타 필요한 변수 및 메소드들은 이 아래로 주석 한줄과 함께 추가할 것
 	// Selector
-	int Graphics::selectPoint(CPoint mouse, int index);	// point 를 클릭하는지 체크
+	int graphic::selectPoint(CPoint mouse, int index)	// point 를 클릭하는지 체크
+	int enGroup()
+	int deGroup()
 
 	// Line
-	int Graphics::inLine(CPoint mouse, CPoint startPoint, CPoint endPoint);	// line 에 속한지 체크 // PolyLine 에서도 사용
+	int graphic::inLine(CPoint mouse, CPoint startPoint, CPoint endPoint)	// line 에 속한지 체크 // PolyLine 에서도 사용
 
 	// PolyLine
 
@@ -68,3 +75,6 @@
 	// Rectangle
 
 	// Text	
+
+
+// graphic::

@@ -1,4 +1,4 @@
-class Graphics{
+class graphic{
 	// member variables
 private:
 	int State;		// 0 := nothing or selector, 
@@ -14,15 +14,15 @@ private:
 	
 	// Creator, Destroyer
 public:
-	Graphics();				// 생성자		// 특별한 구현 없음
-	Graphics(int State);	// 생성자 2		// 실질적으로 사용함
-	~Graphics();			// 소멸자
-	//~Graphics(int State);	// 소멸자 2
+	graphic();			// 생성자		// 특별한 구현 없음
+	graphic(int State);	// 생성자 2		// 실질적으로 사용함
+	~graphic();			// 소멸자
+	//~graphic(int State);	// 소멸자 2
 
 	// mutator
 public:
-	int moveApoint(int index);
-	int moveAll();
+	int moveApoint(int index, CPoint dest);
+	int moveAll(CPoint base, CPoint dest);
 	int chgState(int a);
 	int addPoint(CPoint a);
 	int chgLineWidth(int a);
@@ -44,6 +44,8 @@ public:
 	// Selector
 public:
 	int selectPoint(CPoint mouse, int index);	// point 를 클릭하는지 체크
+	int enGroup();
+	int deGroup();
 
 	// Line
 public:
@@ -63,12 +65,14 @@ private:
 class Groups{	
 	// document 내에서 배열로 선언하며 이 역시 인덱스 관리 변수를 갖게 할 것
 private:	
-	Grapics (*groupMembers)[200];
+	graphic (*groupMembers)[200];
 	Groups (*Groups)[200]
-	int maxIndex;
+	int graphicNum;
+	int GroupNum;
 public:
 	Groups();
-	int add(Grapics* addition);	// overriding
-	int add(Groups* addition);	// overriding
+	int add1(graphic* addition);	
+	int add2(Groups* addition);
+	int cancel();
 	~Groups();
-};
+};	// enGroup, deGroup method 는 selector 에서 
