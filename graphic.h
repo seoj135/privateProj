@@ -15,10 +15,9 @@ private:
 	// Creator, Destroyer
 public:
 	graphic();			// 생성자		// 특별한 구현 없음
-	graphic(int State);	// 생성자 2		// 실질적으로 사용함
 	~graphic();			// 소멸자
-	//~graphic(int State);	// 소멸자 2
 
+	int create(int State);	// 도형 생성자
 	// mutator
 public:
 	int moveApoint(int index, CPoint dest);
@@ -65,14 +64,14 @@ private:
 class Groups{	
 	// document 내에서 배열로 선언하며 이 역시 인덱스 관리 변수를 갖게 할 것
 private:	
-	graphic (*groupMembers)[200];
-	Groups (*Groups)[200]
+	graphic groupMembers[200];
+	Groups Groups[200]
 	int graphicNum;
 	int GroupNum;
 public:
 	Groups();
-	int add1(graphic* addition);	
-	int add2(Groups* addition);
+	int add1(graphic addition);	
+	int add2(Groups addition);
 	int cancel();
 	~Groups();
 };	// enGroup, deGroup method 는 selector 에서 

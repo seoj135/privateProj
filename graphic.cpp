@@ -2,9 +2,12 @@
 // #include "1Line.cpp"
 //
 
-// Creator, Destroyer
-	graphic::graphic(){ };		// 생성자		// 특별한 구현 없음
-	graphic::graphic(int State)	// 생성자 2		// 실질적으로 사용함
+	// Creator, Destroyer
+	//graphic::graphic(){ };	// 생성자		// 특별한 구현 없음
+	//graphic::~graphic();		// 소멸자
+
+	// 도형 생성자
+	int graphic::create(int State)	
 	{	
 		// 현재 선택되있는 옵션들을 부를 수 있도록 Document 객체를 불러야함
 
@@ -12,29 +15,26 @@
 		switch(State){
 		case 0 :	// nothing
 
-			break;
+			return State;
 		case 1 :	// Line
 
-			break;
+			return State;
 		case 2 :	// PolyLine
 
-			break;
+			return State;
 		case 3 :	// Rectangle
 
-			break;
+			return State;
 		case 4 :	// Ellipse
 
-			break;
+			return State;
 		case 5 :	// text
 
-			break;
+			return State;
 		//case 6 :
 
 		}
 	}
-	graphic::~graphic();			// 소멸자
-	//~graphic(int State);	// 소멸자 2
-
 	// mutator
 	int graphic::moveApoint(int index, CPoint dest)
 	{	points[index] = dest;	return 0;			}
@@ -61,12 +61,35 @@
 
 	// 기타 필요한 변수 및 메소드들은 이 아래로 주석 한줄과 함께 추가할 것
 	// Selector
-	int graphic::selectPoint(CPoint mouse, int index)	// point 를 클릭하는지 체크
+	int graphic::selectPoint(CPoint mouse, int index)
+	{	// point 를 클릭하는지 체크
+		long X = points[index].x - lineWidth/2;
+		long Y = points[index].y - lineWidth/2;
+		if(mouse.x >=  X - 1 && mouse.x <= X + lineWidth + 1)
+		{	
+			if(mouse.y >= Y - 1 && mouse.y <= Y + lineWidth + 1)
+			{
+				return index;
+			}
+		}
+		return -1;
+	}
 	int enGroup()
 	int deGroup()
 
 	// Line
-	int graphic::inLine(CPoint mouse, CPoint startPoint, CPoint endPoint)	// line 에 속한지 체크 // PolyLine 에서도 사용
+	int graphic::inLine(CPoint mouse, CPoint startPoint, CPoint endPoint)
+	{	// Line 에 속하는지 확인	// PolyLine 에서도 사용
+		CPoint s = startPoint;		CPoint e = endPoint;
+		if( (mouse.x <= s.x && mouse.x <= e.x) || (mouse.x >= s.x && mouse.x >= e.x) ) return -1;
+		int Y;
+		if( s.x != e.x ) Y = (e.y-s.y)/(e.x-s.x) * ( mouse.x - s.x ) + s.y - lineWidth/2; // 기울기 * ( X - s.x ) + s.y
+		else Y = s.y;
+		if( mouse.y >= Y - 1 && mouse.y <  Y + lineWidth + 1 ){
+			return 0;
+		}
+		return -1;
+	}
 
 	// PolyLine
 
