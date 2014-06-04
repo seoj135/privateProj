@@ -104,6 +104,7 @@
     <None Include="res\toolbar2.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="graphic.h" />
     <ClInclude Include="Graphic_editor.h" />
     <ClInclude Include="Graphic_editorDoc.h" />
     <ClInclude Include="Graphic_editorView.h" />
@@ -113,6 +114,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="graphic.cpp" />
     <ClCompile Include="Graphic_editor.cpp" />
     <ClCompile Include="Graphic_editorDoc.cpp" />
     <ClCompile Include="Graphic_editorView.cpp" />

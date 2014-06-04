@@ -58,6 +58,9 @@
     <ClInclude Include="Resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="graphic.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphic_editor.cpp">
@@ -73,6 +76,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Graphic_editorView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="graphic.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -45,4 +45,19 @@ protected:
 	// 검색 처리기에 대한 검색 콘텐츠를 설정하는 도우미 함수
 	void SetSearchContent(const CString& value);
 #endif // SHARED_HANDLERS
+
+public:
+	graphic obj[200];
+	int objC;
+	Groups grp[200];
+	int grpC;
+
+	int toolState; // 0 := selector
+					// 1 := line,	2 := polyline, 3 := ellipse,
+					// 4 := rectangle,		5 := text
+	COLORREF penColor, brushColor;
+	int penSz, penStyle;
+	int brushStyle;
+	// method
+	int addObj(int index);
 };
