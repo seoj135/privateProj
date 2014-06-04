@@ -4,7 +4,7 @@
 
 
 #pragma once
-
+#include "graphic.h"
 
 class CGraphic_editorDoc : public CDocument
 {
@@ -46,6 +46,7 @@ protected:
 	void SetSearchContent(const CString& value);
 #endif // SHARED_HANDLERS
 
+	// ..
 public:
 	graphic obj[200];
 	int objC;

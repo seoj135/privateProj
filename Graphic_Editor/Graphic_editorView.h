@@ -46,6 +46,13 @@ protected:
 public:
 	afx_msg void OnLbnSelchangeList5();
 	afx_msg void OnCbnSelchangeCombo1();
+
+	// ..
+public:
+	CDC m_dc;
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 };
 
 #ifndef _DEBUG  // Graphic_editorView.cpp의 디버그 버전
