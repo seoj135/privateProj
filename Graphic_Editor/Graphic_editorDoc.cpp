@@ -30,7 +30,10 @@ END_MESSAGE_MAP()
 CGraphic_editorDoc::CGraphic_editorDoc()
 {
 	// TODO: 여기에 일회성 생성 코드를 추가합니다.
-
+	OIAC = GIAC = objC = grpC = penSz = penStyle = brushStyle = 0;
+	DrawingFlag = MMFlag = LbttnFlag = 0;	// Flags
+	penColor = brushColor = RGB(0, 0, 0);
+	toolState = 0;
 }
 
 CGraphic_editorDoc::~CGraphic_editorDoc()
