@@ -1,7 +1,8 @@
+
+#include "stdafx.h"
 #include "graphic.h"
-#include "Graphic_editorView.h"
-#include "Graphic_editorDoc.h"
 #include "MainFrm.h"
+#include "Graphic_editorDoc.h"
 // #include "1Line.cpp"
 //
 
@@ -9,35 +10,6 @@
 	//graphic::graphic(){ };	// 생성자		// 특별한 구현 없음
 	//graphic::~graphic();		// 소멸자
 
-	// 도형 생성자
-	int graphic::create(int State)	
-	{	
-		// 현재 선택되있는 옵션들을 부를 수 있도록 Document 객체를 불러야함
-
-		// 기능별 구현 switch
-		switch(State){
-		case 0 :	// nothing
-
-			return State;
-		case 1 :	// Line
-
-			return State;
-		case 2 :	// PolyLine
-
-			return State;
-		case 3 :	// Rectangle
-
-			return State;
-		case 4 :	// Ellipse
-
-			return State;
-		case 5 :	// text
-
-			return State;
-		//case 6 :
-
-		}
-	}
 	// mutator
 	int graphic::moveApoint(int index, CPoint dest)
 	{	points[index] = dest;	return 0;			}
@@ -52,7 +24,7 @@
 	int graphic::chgColor(COLORREF a)	{colors[0] = a; return 0;}
 	int graphic::chgColor2(COLORREF a)	{colors[1] = a; return 0;}
 	int graphic::chgColorNumber(int a)	{colorNumber = a; return 0;}
-
+	int graphic::chgHatch(int a)		{hatchFlag = a; return 0;}
 	// accessor
 	int		 graphic::getState()			{return State;}
 	CPoint	 graphic::getPoint(int index)	{return points[index];}
@@ -61,7 +33,7 @@
 	int		 graphic::getLineStyle()		{return lineStyle;}
 	COLORREF graphic::getColor(int index)	{return colors[index];}
 	int		 graphic::getColorNumber()		{return colorNumber;}
-
+	int		 graphic::getHatch()			{return hatchFlag;}
 	// 기타 필요한 변수 및 메소드들은 이 아래로 주석 한줄과 함께 추가할 것
 	// Selector
 	int graphic::selectPoint(CPoint mouse, int index)
@@ -77,17 +49,43 @@
 		}
 		return -1;
 	}
-	int graphic::enGroup(){}
-	int graphic::deGroup(){}
-	int graphic::checkIn()
+	int graphic::enGroup(){	return -1;}
+	int graphic::deGroup(){	return -1;}
+	int graphic::checkIn(CPoint mouse, graphic o[200])
 	{	CMainFrame *pFrame = (CMainFrame*)AfxGetMainWnd();
 		CGraphic_editorDoc* docu = (CGraphic_editorDoc*) pFrame->GetActiveDocument();
 		for(int i=0; i<docu->grpC; i++){
-		
+			checkIn(mouse, docu->grp[i].obj);
+			for(int j=0; j<docu->grp[i].GroupNum; j++){
+				checkIn(mouse, docu->grp[i].grp[j].obj);
+			}
 		}
 		for(int i=0; i<docu->objC; i++){
-
+			switch(docu->obj[i].getState()){
+			case 1 : // line
+				{
+					int temp = inLine(mouse, docu->obj[i].getPoint(0), docu->obj[i].getPoint(1));
+					if (temp == 0) {
+						// select
+					}
+					else break;
+				}
+			case 2 : // polyline
+				for(int k=0; k<docu->obj[i].getPointNumber()-1; k++){
+					int temp = inLine(mouse, docu->obj[i].getPoint(k), docu->obj[i].getPoint(k+1));
+					if(temp == 0){
+						// select
+					}
+				} break;
+			case 3 : // ellipse
+				break;
+			case 4 : // rectangle
+				break;
+			case 5 : // text
+				break;
+			}
 		}
+		return 0;
 	}
 
 	// Line

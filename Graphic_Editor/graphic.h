@@ -1,9 +1,11 @@
-#include "stdafx.h"
+//#include<atltypes.h>	// CPoint
+#pragma once
+#include<afx.h>
 
 class graphic{
 	// member variables
 private:
-	int State;		// 0 := nothing or selector, 
+	int State;		// 0 := nothing, 
 					// 1 := line,		2 := polyline,		3 := ellipse,
 					// 4 := rectangle,	5 := text,			6 := polygon	// Polygon 은 구현 미정
 	CPoint* points;
@@ -13,13 +15,12 @@ private:
 	COLORREF colors[2];
 	int colorNumber;	// 1 or 2, 배열 index 최대치 관리
 		// 도형인 경우 내부 색에 대한 상태 변수를 추가할 것
-	
+	int hatchFlag;	// 0 := solid, 1 := hatch
 	// Creator, Destroyer
 public:
-	graphic();			// 생성자		// 특별한 구현 없음
-	~graphic();			// 소멸자
+	//graphic();			// 생성자		// 특별한 구현 없음
+	//~graphic();			// 소멸자
 
-	int create(int State);	// 도형 생성자
 	// mutator
 public:
 	int moveApoint(int index, CPoint dest);
@@ -31,6 +32,7 @@ public:
 	int chgColor(COLORREF a);
 	int chgColor2(COLORREF a);
 	int chgColorNumber(int a);
+	int chgHatch(int a);
 
 	// accessor
 public:
@@ -41,6 +43,7 @@ public:
 	int		 getLineStyle();
 	COLORREF getColor(int index);
 	int		 getColorNumber();
+	int		 getHatch();
 
 	// 기타 필요한 변수 및 메소드들은 이 아래로 주석 한줄과 함께 추가할 것
 	// Selector
@@ -48,7 +51,7 @@ public:
 	int selectPoint(CPoint mouse, int index);	// point 를 클릭하는지 체크
 	int enGroup();
 	int deGroup();
-	int checkIn();
+	int checkIn(CPoint mouse, graphic o[200]);
 	// Line
 public:
 	int inLine(CPoint mouse, CPoint startPoint, CPoint endPoint);	// line 에 속한지 체크 // PolyLine 에서도 사용
@@ -64,17 +67,21 @@ private:
 	CString textData; // ex) CString 변수
 };
 
+typedef struct structgrp{
+	graphic obj[200];
+} structGrp;
+
 class Groups{	
 	// document 내에서 배열로 선언하며 이 역시 인덱스 관리 변수를 갖게 할 것
-private:	
-	graphic grpMembers[200];
-	Groups grp[200];
+public:	
+	graphic obj[200];
+	structGrp grp[200];
 	int graphicNum;
 	int GroupNum;
 public:
-	Groups();
+	//Groups();
+	//~Groups();
 	int add1(graphic addition);	
 	int add2(Groups addition);
 	int cancel();
-	~Groups();
 };	// enGroup, deGroup method 는 selector 에서 

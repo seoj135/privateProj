@@ -9,7 +9,8 @@
 #include "MainFrm.h"
 
 #include "Graphic_editorDoc.h"
-#include "Graphic_editorView.h"
+//#include "Graphic_editorView.h"
+#include "Scroll.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -73,7 +74,7 @@ BOOL CGraphic_editorApp::InitInstance()
 		IDR_MAINFRAME,
 		RUNTIME_CLASS(CGraphic_editorDoc),
 		RUNTIME_CLASS(CMainFrame),       // 주 SDI 프레임 창입니다.
-		RUNTIME_CLASS(CGraphic_editorView));
+		RUNTIME_CLASS(CScroll));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);

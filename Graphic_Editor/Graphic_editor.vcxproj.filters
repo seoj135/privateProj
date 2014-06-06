@@ -52,13 +52,13 @@
     <ClInclude Include="Graphic_editorDoc.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Graphic_editorView.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="graphic.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scroll.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -75,10 +75,10 @@
     <ClCompile Include="Graphic_editorDoc.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Graphic_editorView.cpp">
+    <ClCompile Include="graphic.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="graphic.cpp">
+    <ClCompile Include="Scroll.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
