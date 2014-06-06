@@ -65,7 +65,7 @@ public:
 	int toolState;	// 0 := selector
 					// 1 := line,	2 := polyline, 3 := ellipse,
 					// 4 := rectangle,		5 := text
-	COLORREF penColor, brushColor;
+	COLORREF penColor, brushColor, bgColor;
 	int penSz, penStyle;
 	int brushStyle;	// solid or hatch
 	// method

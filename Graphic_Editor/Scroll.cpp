@@ -25,6 +25,8 @@ BEGIN_MESSAGE_MAP(CScroll, CScrollView)
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
 	ON_WM_RBUTTONUP()
+	//ON_WM_VSCROLL()
+	//ON_WM_HSCROLL()
 END_MESSAGE_MAP()
 
 
@@ -38,13 +40,13 @@ void CScroll::OnInitialUpdate()
 	GetClientRect(&rc);
 	
 	CSize sizeClient;
-	sizeClient.cx = rc.right-rc.left;
-	sizeClient.cy = rc.bottom-rc.top;
+	sizeClient.cx = 800; //rc.right-rc.left;
+	sizeClient.cy = 640; //rc.bottom-rc.top;
 	CSize sizeTotal;
 	// TODO: 이 뷰의 전체 크기를 계산합니다.
 	sizeTotal.cx = sizeClient.cx * 2;
 	sizeTotal.cy = sizeClient.cy * 2;
-	SetScrollSizes(MM_TEXT, sizeTotal, sizeClient);
+	SetScrollSizes(MM_TEXT, sizeTotal, sizeClient);//, sizeClient);
 }
 
 
@@ -72,22 +74,46 @@ CGraphic_editorDoc* CScroll::GetDocument() const{
 
 void CScroll::OnDraw(CDC* pDC)
 {
-	CDocument* pDoc = GetDocument();
+	CGraphic_editorDoc* pDoc = GetDocument();
 	// TODO: 여기에 그리기 코드를 추가합니다.
 	CClientDC dc(this);
 	OnPrepareDC(&dc);	// For match logical grid in scroll view
+
+	if(pDoc->MMFlag == 0){
+		drawAll();
+	}
+	else {
+		switch(pDoc->toolState){
+		case 0 :	break;
+		case 1 : // line
+			break;
+		case 2 :	break;
+		case 3 :	break;
+		case 4 :	break;
+		case 5 :	break;
+		default: break;
+		}
+	}
 }
 
 int CScroll::drawAll(){
 	// get doc
 	CGraphic_editorDoc* pDoc = GetDocument();
 
-	CDC* pDC;
-	pDC = &m_dc;
+	CClientDC dc(this);
+	OnPrepareDC(&dc);
+
+	CDC pDC;
+	pDC.CreateCompatibleDC(&dc);
+	OnPrepareDC(&pDC);
 	CRect rect;		GetClientRect(&rect);
-	CBitmap dummy;
-	dummy.CreateCompatibleBitmap(pDC, rect.right - rect.left, rect.top - rect.bottom);
-	m_dc.SelectObject(&dummy);
+	CBitmap bitmap;
+	bitmap.CreateCompatibleBitmap(&dc /*&pDC*/, 800 * 2, 640 * 2);
+	CBitmap* pBitmap = (CBitmap*) pDC.SelectObject(&bitmap);
+
+	CBrush bgBrush(pDoc->bgColor);
+	pDC.SelectObject(bgBrush);
+	pDC.Rectangle(0, 0, 800 * 2, 640 * 2);
 
 	CPen pen;
 	CBrush brush;
@@ -95,30 +121,31 @@ int CScroll::drawAll(){
 	for(int i=0; i<pDoc->objC; i++){
 		// pen
 		pen.CreatePen(pDoc->obj[i].getLineStyle(), pDoc->obj[i].getLineWidth(),  pDoc->obj[i].getColor(0));
-		m_dc.SelectObject(&pen);
+		pDC.SelectObject(&pen);
 		// brush
 		switch(pDoc->obj[i].getHatch()){
 		case 0: brush.CreateSolidBrush(pDoc->obj[i].getColor(2)); break;
 		case 1: brush.CreateHatchBrush(2, pDoc->obj[i].getColor(2)); break;
-		}	m_dc.SelectObject(&brush);
+		case 2: brush.CreateStockObject(NULL_BRUSH); break;
+		}	pDC.SelectObject(&brush);
 		// drawing
 		switch(pDoc->obj[i].getState()){
 		case 1 : // line
-			m_dc.MoveTo(pDoc->obj[i].getPoint(0));
-			m_dc.LineTo(pDoc->obj[i].getPoint(1));
+			pDC.MoveTo(pDoc->obj[i].getPoint(0));
+			pDC.LineTo(pDoc->obj[i].getPoint(1));
 			break;
 		case 2 : // polyline
-			m_dc.MoveTo(pDoc->obj[i].getPoint(0));
+			pDC.MoveTo(pDoc->obj[i].getPoint(0));
 			for(int j=1; j<pDoc->obj[i].getPointNumber(); j++){
-				m_dc.LineTo(pDoc->obj[i].getPoint(j));
+				pDC.LineTo(pDoc->obj[i].getPoint(j));
 				//m_dc.S
 			}
 			break;
 		case 3 : // ellipse
-			m_dc.Ellipse(pDoc->obj[i].getPoint(0).x, pDoc->obj[i].getPoint(0).y, pDoc->obj[i].getPoint(1).x, pDoc->obj[i].getPoint(1).y);
+			pDC.Ellipse(pDoc->obj[i].getPoint(0).x, pDoc->obj[i].getPoint(0).y, pDoc->obj[i].getPoint(1).x, pDoc->obj[i].getPoint(1).y);
 			break;
 		case 4 : // rectangle
-			m_dc.Rectangle(pDoc->obj[i].getPoint(0).x, pDoc->obj[i].getPoint(0).y, pDoc->obj[i].getPoint(1).x, pDoc->obj[i].getPoint(1).y);
+			pDC.Rectangle(pDoc->obj[i].getPoint(0).x, pDoc->obj[i].getPoint(0).y, pDoc->obj[i].getPoint(1).x, pDoc->obj[i].getPoint(1).y);
 			break;
 		case 5 : // text
 			// TO DO ..
@@ -127,6 +154,10 @@ int CScroll::drawAll(){
 		default : break;
 		}
 	}
+	dc.BitBlt(0, 0, 800 * 2, 640 * 2, &pDC, 0, 0, SRCCOPY);
+	pDC.SelectObject(pBitmap);
+	pDC.DeleteDC();
+	bitmap.DeleteObject();
 	return 0;
 }
 
@@ -214,3 +245,22 @@ void CScroll::OnRButtonUp(UINT nFlags, CPoint point)
 	}
 	CScrollView::OnRButtonUp(nFlags, point);
 }
+
+/*
+void CScroll::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	drawAll();
+	Invalidate();
+	CScrollView::OnVScroll(nSBCode, nPos, pScrollBar);
+}
+
+
+void CScroll::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	drawAll();
+	Invalidate();
+	CScrollView::OnHScroll(nSBCode, nPos, pScrollBar);
+}
+*/

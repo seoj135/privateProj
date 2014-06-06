@@ -33,6 +33,7 @@ CGraphic_editorDoc::CGraphic_editorDoc()
 	OIAC = GIAC = objC = grpC = penSz = penStyle = brushStyle = 0;
 	DrawingFlag = MMFlag = LbttnFlag = 0;	// Flags
 	penColor = brushColor = RGB(0, 0, 0);
+	bgColor = RGB(255, 0, 0);
 	toolState = 0;
 }
 
