@@ -96,9 +96,14 @@
   <ItemGroup>
     <None Include="Graphic_editor.reg" />
     <None Include="ReadMe.txt" />
+    <None Include="res\bitmap2.bmp" />
     <None Include="res\Graphic_editor.ico" />
     <None Include="res\Graphic_editor.rc2" />
     <None Include="res\Graphic_editorDoc.ico" />
+    <None Include="res\line_normal.bmp" />
+    <None Include="res\line_Thick.bmp" />
+    <None Include="res\line_Thin.bmp" />
+    <None Include="res\mouse.bmp" />
     <None Include="res\Toolbar.bmp" />
     <None Include="res\toolbar2.bmp" />
     <None Include="res\toolbar3.bmp" />
@@ -114,6 +119,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="buttons.cpp" />
     <ClCompile Include="graphic.cpp" />
     <ClCompile Include="Graphic_editor.cpp" />
     <ClCompile Include="Graphic_editorDoc.cpp" />

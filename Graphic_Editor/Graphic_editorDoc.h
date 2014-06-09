@@ -46,28 +46,29 @@ protected:
 	void SetSearchContent(const CString& value);
 #endif // SHARED_HANDLERS
 
-	// selector
-public:
-	int OIA[200];	// Object index Array
-	int OIAC;
-	int GIA[200];	// Groups index Array
-	int GIAC;
 	// .. data
 public:
 	graphic obj[200];
-	int objC;
-	Groups grp[200];
+	Groups* grp;
+	int objC;	
 	int grpC;
 
-	int DrawingFlag;
+	int DrawingFlag;// drawing~
 	int MMFlag;		// mouse move flag 0, 1
 	int LbttnFlag;	// 0 := not down, 1 := now down
 	int toolState;	// 0 := selector
 					// 1 := line,	2 := polyline, 3 := ellipse,
 					// 4 := rectangle,		5 := text
-	COLORREF penColor, brushColor, bgColor;
-	int penSz, penStyle;
-	int brushStyle;	// solid or hatch
+	COLORREF lineColor, brushColor, bgColor, textColor, textBgColor;
+	int lineSz, lineStyle;
+	int brushStyle;	// solid or hatch, NULL	// 0, 1, 2
+
+	int textBgFlag;	// 0 := solid or 1 := NULL
+	int textSz;		// 8, 10, 12( »ç½Ç»ó  15, 20, 25 )
+	byte textWeight;	// FW_NORMAL 400 or FW_HEAVY 900
+	byte textItalic, textUnderLine;	// 0, 1	// 0, 1
+	int textType;	// ±¼¸², ±Ã¼­	// 0, 1
 	// method
-	int addObj(int index);
+	int addObj();
+	int delObj(int index);
 };

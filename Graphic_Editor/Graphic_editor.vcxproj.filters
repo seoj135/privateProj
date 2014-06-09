@@ -35,6 +35,21 @@
     <None Include="res\toolbar3.bmp">
       <Filter>리소스 파일</Filter>
     </None>
+    <None Include="res\bitmap2.bmp">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="res\line_Thin.bmp">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="res\line_normal.bmp">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="res\line_Thick.bmp">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="res\mouse.bmp">
+      <Filter>리소스 파일</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphic_editor.h">
@@ -79,6 +94,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Scroll.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="buttons.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

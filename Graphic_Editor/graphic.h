@@ -8,14 +8,14 @@ private:
 	int State;		// 0 := nothing, 
 					// 1 := line,		2 := polyline,		3 := ellipse,
 					// 4 := rectangle,	5 := text,			6 := polygon	// Polygon 은 구현 미정
-	CPoint* points;
+	CPoint points[40];
 	int pointNumber;	// 배열 index 최대치 관리
-	int lineWidth;		// lineWidth
+	int lineSz;		// lineWidth
 	int lineStyle;		// lineStyle
 	COLORREF colors[2];
 	int colorNumber;	// 1 or 2, 배열 index 최대치 관리
 		// 도형인 경우 내부 색에 대한 상태 변수를 추가할 것
-	int hatchFlag;	// 0 := solid, 1 := hatch
+	int hatchFlag;	// 0 := solid, 1 := hatch, 2 := NULL
 	// Creator, Destroyer
 public:
 	//graphic();			// 생성자		// 특별한 구현 없음
@@ -27,19 +27,20 @@ public:
 	int moveAll(CPoint base, CPoint dest);
 	int chgState(int a);
 	int addPoint(CPoint a);
-	int chgLineWidth(int a);
+	int chgPoint(int index, CPoint a);
+	int chgLineSz(int a);
 	int chgLineStyle(int a);
 	int chgColor(COLORREF a);
 	int chgColor2(COLORREF a);
 	int chgColorNumber(int a);
 	int chgHatch(int a);
-
+	int initPN();
 	// accessor
 public:
 	int		 getState();
 	CPoint 	 getPoint(int index);
 	int		 getPointNumber();
-	int		 getLineWidth();
+	int		 getLineSz();
 	int		 getLineStyle();
 	COLORREF getColor(int index);
 	int		 getColorNumber();
@@ -51,20 +52,23 @@ public:
 	int selectPoint(CPoint mouse, int index);	// point 를 클릭하는지 체크
 	int enGroup();
 	int deGroup();
-	int checkIn(CPoint mouse, graphic o[200]);
+	int checkIn(CPoint mouse, graphic o[200], int c);	// c = count
+	CRect getLTRB(graphic o);
 	// Line
 public:
-	int inLine(CPoint mouse, CPoint startPoint, CPoint endPoint);	// line 에 속한지 체크 // PolyLine 에서도 사용
+	int inLine(CPoint mouse, CPoint startPoint, CPoint endPoint, int lineSz);	// line 에 속한지 체크 // PolyLine 에서도 사용
 
 	// PolyLine
 
 	// Ellipse
-
+	int inEllipse(CPoint mouse, CPoint startPoint, CPoint endPoint);
 	// Rectangle
-
+	int inRect(CPoint mouse, CPoint startPoint, CPoint endPoint); // text 에서도 사용
 	// Text	
-private:
+public:
 	CString textData; // ex) CString 변수
+	byte textWeight, textItalic, textUnderLine;
+	int fontSz, textType;
 };
 
 typedef struct structgrp{
@@ -74,14 +78,20 @@ typedef struct structgrp{
 class Groups{	
 	// document 내에서 배열로 선언하며 이 역시 인덱스 관리 변수를 갖게 할 것
 public:	
+	CRect rect;	// reft, top, right, bot
+	int depth;
 	graphic obj[200];
-	structGrp grp[200];
-	int graphicNum;
-	int GroupNum;
+	Groups **grp;
+	int objC;
+	int grpC;
 public:
-	//Groups();
+	Groups();
+	Groups(int i_depth);
 	//~Groups();
 	int add1(graphic addition);	
 	int add2(Groups addition);
 	int cancel();
+	int makeGrp(int c);		// c : count
+	CPoint grpCheckin(CPoint mouse, Groups grp[], int c);	// c : count
+	CRect getLTRB();
 };	// enGroup, deGroup method 는 selector 에서 
